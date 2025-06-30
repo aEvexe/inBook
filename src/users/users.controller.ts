@@ -30,4 +30,9 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @Get("activate/:link")
+  activateUser(@Param("link") link: string){
+    return this.usersService.activateUser(link);
+  }
 }

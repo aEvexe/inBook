@@ -9,6 +9,6 @@ import { AdminService } from '../admin/admin.service';
   imports: [JwtModule.register({}), AdminModule],
   controllers: [AdminAuthController],
   providers: [AdminAuthService],
-  exports: [AdminService]
+  exports: [AdminAuthService]
 })
 export class AdminAuthModule {}

@@ -23,7 +23,6 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
         template: {
           dir: join(__dirname, "templates"),
           adapter: new HandlebarsAdapter(),
-          template: "confirmation",
           options: {
             strict: true,
           },

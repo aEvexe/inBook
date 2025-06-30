@@ -36,6 +36,40 @@ export class UsersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userModel.destroy({where:{id}});
+  }
+
+  async activateUser(link:string){
+    if(!link){
+      throw new BadRequestException("activate link not found");
+    }
+
+    const updatedUser = await this.userModel.update(
+      {is_active: true},
+      {
+        where: {
+          activation_link: link,
+          is_active: false
+        },
+        returning: true,
+      }
+    )
+    if(!updatedUser[1][0]){
+      throw new BadRequestException("user already activated")
+    }
+    return {
+      message: "user activated succesfully",
+      is_active: updatedUser[1][0].is_active
+    }
+  }
+
+  async updateRefreshToken(id: number, refresh_token: string){
+    const updatedUser = await this.userModel.update(
+      {refresh_token},
+      {
+        where: {id},
+      }
+    )
+    return updatedUser
   }
 }

@@ -23,6 +23,7 @@ export class AdminAuthService {
       id: admin.id,
       is_active: admin.is_active,
       is_creator: admin.is_creator,
+      is_admin: true,
     };
 
     const [accessToken, refreshToken] = await Promise.all([
@@ -86,5 +87,35 @@ export class AdminAuthService {
 
     return { message: "Tizimga xush kelibsiz", id: admin.id, accessToken };
   }
+
+  async signout(refreshToken: string, res: Response) {
+  res.clearCookie('refreshToken');
+  return { message: 'Admin signed out' };
+}
+
+
+  async refreshToken(id: number, refreshToken: string, res: Response) {
+  const admin = await this.adminService.findOne(id);
+  if (!admin || !admin.refresh_token) {
+    throw new UnauthorizedException('Admin not found or no refresh token');
+  }
+
+  const isMatch = await bcrypt.compare(refreshToken, admin.refresh_token);
+  if (!isMatch) {
+    throw new UnauthorizedException('Invalid refresh token');
+  }
+
+  const tokens = await this.generateToken(admin);
+  admin.refresh_token = await bcrypt.hash(tokens.refreshToken, 7);
+  await admin.save();
+
+  res.cookie('refreshToken', tokens.refreshToken, {
+    maxAge: +process.env.COOKIE_TIME!,
+    httpOnly: true,
+  });
+
+  return { id: admin.id, accessToken: tokens.accessToken };
+}
+
 
 }

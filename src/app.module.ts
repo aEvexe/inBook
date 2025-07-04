@@ -21,13 +21,23 @@ import { TelegrafModule } from "nestjs-telegraf";
 import { BOT_NAME } from "./app.constants";
 import { BotModule } from './bot/bot.module';
 import { BookModule } from './book/book.module';
-import { Books } from "./book/models/book.model";
+import { Book } from "./book/models/book.model";
 import { BookVersionModule } from './book-version/book-version.module';
 import { BookVersion } from "./book-version/models/book-version.model";
 import { AudioBookModule } from './audio-book/audio-book.module';
 import { AudioBooks } from "./audio-book/models/audio-book.model";
 import { AudioPartsModule } from './audio-parts/audio-parts.module';
 import { AudioParts } from "./audio-parts/models/audio-part.model";
+import { Bot } from "./bot/models/bot.model";
+import { Library } from "./bot/models/library.model";
+import { SubscribtionModule } from './subscribtion/subscribtion.module';
+import { Subscription } from "./subscribtion/models/subscribtion.model";
+import { CollectionModule } from './collections/collections.module';
+import { Collection } from "./collections/models/collection.model";
+import { BookCollectionModule } from './book-collection/book-collection.module';
+import { BookCollection } from "./book-collection/models/book-collection.model";
+import { BookmarkModule } from './book-marks/book-marks.module';
+import { Bookmark } from "./book-marks/models/book-mark.model";
 
 @Module({
   imports: [
@@ -54,7 +64,7 @@ import { AudioParts } from "./audio-parts/models/audio-part.model";
       username: process.env.PG_USER,
       password: process.env.PG_PASSWORD,
       database: process.env.PG_DB,
-      models: [User, Admin, Genre, Languages, Author, Categories, Books, BookVersion, AudioBooks, AudioParts],
+      models: [User, Admin, Genre, Languages, Author, Categories, Book, BookVersion, AudioBooks, AudioParts, Bot, Library, Subscription, Collection, BookCollection, Bookmark],
       autoLoadModels: true,
       logging: false,
       sync: { alter: true },
@@ -85,6 +95,15 @@ import { AudioParts } from "./audio-parts/models/audio-part.model";
     AudioBookModule,
 
     AudioPartsModule,
+
+    SubscribtionModule,
+
+    CollectionModule,
+
+    BookCollectionModule,
+
+    BookmarkModule,
+
   ],
 })
 export class AppModule {}

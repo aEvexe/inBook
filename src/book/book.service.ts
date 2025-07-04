@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { Books } from './models/book.model';
+import { Book } from './models/book.model';
 
 @Injectable()
 export class BookService {
-  constructor(@InjectModel(Books) private booksService: typeof Books){}
+  constructor(@InjectModel(Book) private booksService: typeof Book){}
   create(createBookDto: CreateBookDto) {
     return this.booksService.create(createBookDto);
   }

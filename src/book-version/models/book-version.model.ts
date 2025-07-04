@@ -1,6 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { Author } from "../../authors/models/author.model";
-import { Books } from "../../book/models/book.model";
+import { Book } from "../../book/models/book.model";
 import { Languages } from "../../languages/models/language.model";
 import { AudioBooks } from "../../audio-book/models/audio-book.model";
 
@@ -23,12 +23,12 @@ export class BookVersion extends Model<BookVersion, IBookVersionCreationAtt>{
     })
     declare id: number
 
-    @ForeignKey(()=>Books)
+    @ForeignKey(()=>Book)
     @Column({type: DataType.INTEGER, onDelete: "CASCADE" })
     declare bookId: number;
 
-    @BelongsTo(()=>Books)
-    book: Books
+    @BelongsTo(()=>Book)
+    book: Book
 
     @ForeignKey(()=>Languages)
     @Column({type: DataType.INTEGER, onDelete: "CASCADE" })

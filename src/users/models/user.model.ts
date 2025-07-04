@@ -1,5 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, Table, Model } from "sequelize-typescript";
+import { Column, DataType, Table, Model, HasMany } from "sequelize-typescript";
+import { Subscription } from "../../subscribtion/models/subscribtion.model";
+import { Collection } from "../../collections/models/collection.model";
+import { Bookmark } from "../../book-marks/models/book-mark.model";
 
 interface IUserCreationAttr {
   full_name: string;
@@ -59,4 +62,13 @@ export class User extends Model<User, IUserCreationAttr> {
   @ApiProperty({ example: "token...", description: "Refresh token" })
   @Column({ type: DataType.STRING(2000) })
   declare refresh_token: string;
+
+  @HasMany(()=> Subscription)
+  subsription: Subscription
+
+  @HasMany(()=> Collection)
+  collection: Collection
+
+  @HasMany(() => Bookmark)
+  bookmarks: Bookmark[];
 }
